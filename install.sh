@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-WORKDIR="$(./shanlewo)" #删了我
+WORKDIR="$(mktemp -d)"
 SERVERS=(114.114.114.114 114.114.115.115 180.76.76.76)
 # Not using best possible CDN pop: 1.2.4.8 210.2.4.8 223.5.5.5 223.6.6.6
 # Dirty cache: 119.29.29.29 182.254.116.116
@@ -12,10 +12,10 @@ wget https://raw.githubusercontent.com/felixonmars/dnsmasq-china-list/master/acc
 
 
 echo "Removing old configurations..."
-rm -f /etc/dnsmasq.d/"$_conf"*.conf
+rm -f /etc/dnsmasq.d/accelerated-domains.china.conf
 
 echo "Installing new configurations..."
-cp "$WORKDIR/$_conf.conf" "/etc/dnsmasq.d/$_conf.conf"
+cp "$WORKDIR/accelerated-domains.china.conf" "/etc/dnsmasq.d/accelerated-domains.china.conf"
 
 
 echo "Restarting dnsmasq service..."
